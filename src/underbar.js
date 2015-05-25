@@ -255,16 +255,17 @@
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
     var trueOnce = false;
-    return _.every(collection, function(item) {
+    _.every(collection, function(item) {
+      if(iterator === undefined){
+        iterator = function(value){
+          return value > 0;
+        }
+      }
       if(iterator(item)){
         trueOnce = true;
       }
-      if(iterator(item) || trueOnce) {
-        return true;
-      } else {
-        return false;
-      }
     });
+    return trueOnce;
   };
 
 
@@ -287,6 +288,22 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    /*
+    for(var i=1; i < arguments.length; i++){
+      for(var key in arguments[i]){
+        obj[key] = arguments[i][key];
+      }
+    }
+    return obj;
+    */
+    //try using _.each to iterate over array */
+    //var extension = slice.call(arguments, 1);
+    _.each([].slice.call(arguments, 1), function(args) {
+      for(var key in args){
+        obj[key] = args[key];
+      }
+    });
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
