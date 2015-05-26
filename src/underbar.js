@@ -194,7 +194,7 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     
-    _.each(collection, function(value, key, collection){
+    _.each(collection, function(value){
       if(accumulator === undefined){
         accumulator = value;
       } else {
@@ -298,7 +298,7 @@
     */
     //try using _.each to iterate over array */
     //var extension = slice.call(arguments, 1);
-    _.each([].slice.call(arguments, 1), function(args) {
+    _.each(Array.prototype.slice.call(arguments, 1), function(args) {
       for(var key in args){
         obj[key] = args[key];
       }
@@ -309,6 +309,28 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+    _.each(Array.prototype.slice.call(arguments, 1), function(args) {
+      for(var key in args) {
+        if(!hasOwnProperty.call(obj, key)) {
+          obj[key] = args[key];
+        }
+      }
+    });
+    return obj;
+
+/*  var source;
+    for(var i=1; i < arguments.length; i++){
+      source = arguments[i]
+      for(var key in source){
+        if (!hasOwnProperty.call(obj, key) && hasOwnProperty.call(source, key)) {
+          obj[key] = source[key];
+        }
+      }
+    }
+    return obj;
+*/
+
   };
 
 
