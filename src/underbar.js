@@ -312,7 +312,7 @@
 
     _.each(Array.prototype.slice.call(arguments, 1), function(args) {
       for(var key in args) {
-        if(!hasOwnProperty.call(obj, key)) {
+        if(!obj.hasOwnProperty(key)) {
           obj[key] = args[key];
         }
       }
@@ -323,7 +323,7 @@
     for(var i=1; i < arguments.length; i++){
       source = arguments[i]
       for(var key in source){
-        if (!hasOwnProperty.call(obj, key) && hasOwnProperty.call(source, key)) {
+        if (!hasOwnProperty.call(obj, key)) {
           obj[key] = source[key];
         }
       }
