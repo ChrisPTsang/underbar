@@ -133,7 +133,6 @@
     var result = [];
 
     _.each(collection, function(value, key, collection){
-      console.log(collection);
       result.push(iterator(value, key, collection));
     });
 
@@ -374,6 +373,40 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+
+    var args = {};
+    var result;
+
+    return function() {
+      var argFound = false;
+
+      for(var key in args) {
+        //check if argument has been used
+        if(key == arguments[0]) {
+          argFound = true;      
+          result = args[key];
+        }
+      }
+      if(argFound === false) {
+        result = func.apply(this, arguments);
+        args[arguments[0]] = result;
+      }
+      console.log(argFound);
+      return result;
+    };
+  
+   /* var sameArg = null;
+    var result;
+
+    return function(){
+      console.log(arguments[0]);
+      if(sameArg != arguments[0]){
+        result = func.apply(this, arguments);
+        sameArg = arguments[0];
+      }
+      return result;
+    }
+    */
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -383,6 +416,11 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = Array.prototype.slice.call(arguments, 2);
+
+    return setTimeout(function() {
+      return func.apply(null, args);
+    }, wait);
   };
 
 
